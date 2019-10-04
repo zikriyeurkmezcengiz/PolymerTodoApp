@@ -1,0 +1,238 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../components/card-element.html">
+<link rel="import" href="../../bower_components/vaadin-date-picker/vaadin-date-picker.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+
+<dom-module id="todoapp-app">
+
+  <template>
+    <style>
+      .inputs {
+        width: auto;
+        display: flex;
+        flex-flow: column;
+      }
+
+      .pageContent {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        flex-flow: column;
+      }
+
+      .blueBtn {
+        background-color: rgba(0, 62, 81, 1);
+        color: white;
+        border-radius: 3px;
+        border: none;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 20px;
+      }
+
+      .blueBtn:hover {
+        background-color: rgba(209, 144, 0, 1);
+        color: white;
+      }
+
+      .pink {
+        background-color: pink;
+        color: white;
+        border-radius: 3px;
+        border: none;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+
+
+      #toDoDesc {
+        width: 300px;
+        color: dimgrey;
+      }
+
+      #toDoName {
+        width: 300px;
+        color: dimgrey;
+      }
+
+      #todoDueDate {
+        width: 300px;
+        color: dimgrey;
+      }
+
+      .cardView {
+        display: flex;
+        flex-flow: wrap;
+        place-content: center;
+      }
+
+ 
+      .sicon:hover {
+        color: rgba(209, 144, 0, 1);
+      }
+
+      #seperatesection {
+        width: 1400;
+        padding: 10px;
+        display: flex;
+      flex-flow: row;
+      justify-content: space-around;
+      }
+
+      #seperatesection>div {
+        float: left;
+        margin: 10px;
+      
+      }
+      .panel {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        width: 30%;
+        background-color: #DBE9EA;
+        border-radius: 3px;
+        height: min-content;
+      }
+
+      #labelTitle{
+        float: left !important;
+        margin-top:5px;
+        font-size: 18px;
+        font-weight: bold;
+        color:  rgba(0, 62, 81, 1);;
+      }
+
+      #donesection{
+        background-color: #AAD9C4;
+      }
+#inprogresssection{
+  background-color: #FCFA89;
+}
+
+    </style>
+    <div class="pageContent">
+      <div class="inputs">
+        <paper-input id="toDoName" label="To Do Name"></paper-input>
+        <paper-textarea id="toDoDesc" label="Description" max-rows="5" rows="3"></paper-textarea>
+        <vaadin-date-picker id="todoDueDate" placeholder="Due Date">
+        </vaadin-date-picker>
+      </div>
+      <div>
+        <paper-button class="blueBtn" id="addButton" on-click="addNewTodoItem" on-tap="" raised>
+          Add
+        </paper-button>
+
+      </div>
+      <div id="seperatesection">
+        <div id="todosection" class="panel">
+          <div>
+            <label id="labelTitle">TO DO </label>
+          </div>
+          <div class="cardView">
+            <template is="dom-repeat" items="{{todoList}}">
+
+              <card-element name="[[item.name]]" description="[[item.description]]" expire="[[item.dueDate]]" on-update="kicked">
+              </card-element>
+            </template>
+          </div>
+        </div>
+        <div id="inprogresssection" class="panel">
+            <label id="labelTitle">IN PROGRESS</label> 
+          <template is="dom-repeat" items="{{inProgressList}}">
+            <card-element name="[[item.name]]" description="[[item.description]]" expire="[[item.dueDate]]">
+            </card-element>
+          </template>
+
+        </div>
+        <div id="donesection" class="panel">
+            <label id="labelTitle">DONE</label> 
+          <template is="dom-repeat" items="{{doneList}}">
+            <card-element name="[[item.name]]" description="[[item.description]]" expire="[[item.dueDate]]">
+            </card-element>
+          </template>
+
+        </div>
+      </div>
+
+      <div id="container">
+        <div id="inner">
+          <div class="child"></div>
+          <div class="child"></div>
+          <div class="child"></div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class TodoappApp extends Polymer.Element {
+      static get is() { return 'todoapp-app'; }
+      static get properties() {
+        return {
+          todoList: {
+            value() {
+              return [
+                { name: 'Read Book', description: 'Read at least one book in a week.', dueDate: '22/08/2019' },
+                { name: 'English Practise', description: 'Every day do at least one english practise.', dueDate: '22/08/2019' }
+              ];
+            },
+            notify: true,
+            reflectToAttribute: true
+          },
+          inProgressList: {
+            value() {
+              return [
+                { name: 'Read Book', description: 'Read at least one book in a week.', dueDate: '22/08/2019' },
+                { name: 'English Practise', description: 'Every day do at least one english practise.', dueDate: '22/08/2019' }
+              ];
+            },
+            notify: true,
+            reflectToAttribute: true
+          },
+          doneList: {
+            value() {
+              return [
+                { name: 'Read Book', description: 'Read at least one book in a week.', dueDate: '22/08/2019' },
+                { name: 'English Practise', description: 'Every day do at least one english practise.', dueDate: '22/08/2019' }
+              ];
+            },
+            notify: true,
+            reflectToAttribute: true
+          }
+        };
+      }
+
+      addNewTodoItem() {
+        var title = Polymer.dom(this.root).querySelector("#toDoName").value;
+        var description = Polymer.dom(this.root).querySelector("#toDoDesc").value;
+        var dueDate = Polymer.dom(this.root).querySelector("#todoDueDate").value;
+        //
+        this.push('todoList', { name: title, description: description, dueDate: dueDate });
+      }
+
+      removeFromTodoList(e) {
+        var index = e.model.index;
+        this.splice('todoList', index, 1);
+      }
+      kicked(e)
+      {
+        alert('Waw');
+      }
+      
+    }
+   
+    window.customElements.define(TodoappApp.is, TodoappApp);
+  </script>
+</dom-module>

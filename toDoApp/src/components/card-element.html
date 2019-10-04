@@ -1,0 +1,124 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<dom-module id="card-element">
+  <template>
+    <style>
+      .title {
+
+        padding-left: 5px;
+      }
+
+      .listItemDesc {
+        color: grey;
+        background-color: lightyellow;
+        border-radius: 4px;
+        border: none;
+        padding: 10px;
+        font-size: 14px;
+        margin: 10px;
+      }
+
+      .listItemContent {
+        width: 350px;
+        background-color: lightblue;
+        height: min-content;
+        border-radius: 2px;
+        border: none;
+        margin: 15px;
+      }
+
+      .titleAndDate {
+        justify-content: space-between;
+        padding-top: 5px;
+        margin-top: 5px;
+        color: dimgrey;
+        font-size: 16px;
+        display: flex;
+        flex-flow: row;
+        font-size: 15px;
+      }
+
+      .date {
+        align-items: flex-end;
+        margin-left: 5px;
+
+      }
+
+      .dateContent {
+        background-color: rgba(209,144,0,1);
+        border-radius: 3px;
+        border: none;
+        color: white;
+        padding: 2px;
+        margin-right: 5px;
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+        align-items: baseline
+      }
+
+      #ironIcons {
+        width: 25px !important;
+        height: 17px !important;
+      }
+      .sicon{
+        --iron-icon-height: 17px;
+      --iron-icon-width: 17px;
+      }    
+
+      .cancelicon{
+        --iron-icon-height: 25px;
+        --iron-icon-width: 25px;
+        color: rgba(0, 62, 81, 1);
+        left: -1px;
+        top: 24px;
+      }
+      </style>
+    <iron-icon class="cancelicon" icon="cancel" on-click="removefromtodolist"></iron-icon>
+    <div class="listItemContent">
+
+      <div class="titleAndDate">
+        <span class="title">{{name}}</span>
+        <div class="dateContent">
+          <div id="ironIcons">
+            <iron-icon class="sicon" icon="alarm-on"> </iron-icon>
+          </div>
+          <span class="date">{{expire}}</span>
+        </div>
+      </div>
+      <div class="listItemDesc"> <span>{{description}}</span></div>
+    </div>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class CardElement extends Polymer.Element {
+      static get is() { return 'card-element'; }
+      static get properties() {
+        return {
+          name: {
+            type: String
+          },
+          description: {
+            type: String
+          },
+          expire: {
+            type: String
+          }
+        };
+       
+      }
+
+      removefromtodolist(e) {
+        debugger;
+        const event = new CustomEvent('kicked', { bubbles: true, composed: true, detail: this.name });
+        this.dispatchEvent(event);
+          }
+    }
+
+    window.customElements.define(CardElement.is, CardElement);
+  </script>
+</dom-module>
